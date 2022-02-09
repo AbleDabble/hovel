@@ -1,4 +1,3 @@
-from sympy import re
 import yt_dlp as yt
 from flask import Flask, request
 from flask import jsonify
@@ -38,11 +37,14 @@ def download():
                 'filesize': format['filesize']
             }
             formats.append(new_format)
-        return jsonify(formats)
+        response = jsonify(formats)
+        response.headers.add('Access-Control-Allow-Origin', '*') 
+        return response
     if request.method == "POST":
         options = {
-            'outtmpl': 'videos/%(title)s-%(format_id)s.%(ext)s'
+            'outtmpl': '../frontend/public/videos/%(title)s-%(format_id)s.%(ext)s'
         }
+        response_tmpl = "%(title)s-%(format_id)s.%(ext)s"
         if 'format' in request.form:
             format_id = request.form['format']
             options['format'] = format_id
@@ -50,11 +52,21 @@ def download():
         else:
             youtube = yt.YoutubeDL(options)
         try:
-            youtube.extract_info(request.form['url'])
-            return jsonify({"Success": True})
+            info = youtube.extract_info(request.form['url'])
+            filename = response_tmpl % {
+                "title": info['title'],
+                "format_id": info['format_id'],
+                "ext": info['ext']
+            }
+            response = {"success": True, "filename": filename}
+            print("===[RESPONSE]===", response)
+            response = jsonify(response)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
         except Exception as e:
             print(e)
-            return jsonify({"Success": False})
+            response = jsonify({"success": False}) 
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
         
-
-app.run()
+app.run(host="0.0.0.0")
