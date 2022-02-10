@@ -16,7 +16,7 @@ import axios from 'axios'
 
 export const Downloader = (props) => {
   const [formats, setFormats] = useState([]); 
-  const url = 'http://192.168.1.68:5000/download';
+  const url = process.env.backend_url + '/yt/download';
   const convertBytes = (bytes) => {
     const names = ["B", "KB", "MB", "GB", "TB"];
     let ind = Math.floor(Math.log10(bytes) / 3);
@@ -25,6 +25,7 @@ export const Downloader = (props) => {
     console.log(ind)
     let name = names[ind];
     let size = bytes / Math.pow(10, ind * 3);
+    size = size.toFixed(2);
     return  `${size} ${name}`;
   }
   return (
