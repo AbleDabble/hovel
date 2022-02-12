@@ -106,3 +106,4 @@ dist
 # Misc/custom
 /backend/__pycache__
 /sandbox/
+/backend/api/__pycache__/yt.cpython-39.pyc
