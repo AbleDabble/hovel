@@ -12,7 +12,7 @@ export default function Home() {
       <Center mt="30px">
         <Grid gap={4}>
           <Button colorScheme="green" onClick={() => router.push("/download")}>Youtube Download</Button>
-          <Button colorScheme="green">Search</Button>
+          <Button colorScheme="green" onClick={() => router.push("/library")}>Library</Button>
         </Grid>
 
      </Center>
