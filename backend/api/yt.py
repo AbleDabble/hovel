@@ -27,7 +27,7 @@ def download():
     POST:
         PARAMETERS:
             url - url to video
-            formatn - format_id of video to download
+            format - format_id of video to download
         RETURNS: JSON indicating success or failure along with the name of the saved file
     """
     if request.method == "GET":
@@ -92,3 +92,17 @@ def download():
             response = jsonify({"success": False}) 
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
+
+@bp.route('/videos', methods=["GET"])
+def videos():
+    response = Videos.query.all()
+    response = jsonify([r.serialize for r in response])
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@bp.route('/search', methods=["GET"])
+def search():
+    """
+    Returns a list of videos based on search results
+    """
+    pass

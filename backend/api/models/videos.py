@@ -19,3 +19,13 @@ class Videos(db.Model):
         self.ext = ext
         self.title = title
 
+    @property
+    def serialize(self):
+        return {
+            'link': self.link,
+            'filename': self.filename,
+            'filesize': self.filesize,
+            'format_id': self.format_id,
+            'title': self.title,
+            'ext': self.ext,
+        }
