@@ -8,9 +8,12 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { convertBytes } from '../utils/videoUtils'
+import NextLink from 'next/link'
+import { Link } from '@chakra-ui/react'
 
 export const VideoBox = ({title, filesize, src, link}) => {
   console.log("VIDEOS", title);
+  const location = `location.href='${link}'`
   return (
     <Box 
       maxW='lg' 
@@ -31,11 +34,11 @@ export const VideoBox = ({title, filesize, src, link}) => {
       </video>
       <Center>
       <VStack w='100%'>
-        <Box mt={2} width='100%'>
-          <form action={link}>
-            <Button w='100%' height='2em' colorScheme='messenger' type='submit'>Link</Button>
-          </form>
-        </Box>
+        <NextLink href={link} passHref>
+          <Link w='100%' borderRadius='4px' height='2em' bg='blue.600' color='white' mt={2} fontWeight='semibold'>
+            <Center mt={1}>Link</Center>
+          </Link>
+        </NextLink>
         <Box mt={1} fontSize='lg'>
           Size {convertBytes(filesize)}
         </Box>
